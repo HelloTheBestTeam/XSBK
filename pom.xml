@@ -168,4 +168,10 @@
 			</plugin>
 		</plugins>
 	</build>
+	<modules>
+		<module>XSBK-user</module>
+		<module>XSBK-search</module>
+		<module>XSBK-auth</module>
+		<module>XSBK-core</module>
+	</modules>
 </project>
