@@ -33,3 +33,6 @@ eureka:
   instance:
     instance-id: ${spring.application.name}:${server.port}
     prefer-ip-address: true     #访问路径可以显示IP地址    
+    
+    
+validateType: account,nickName,phone    #注册账号是检验是否存在
