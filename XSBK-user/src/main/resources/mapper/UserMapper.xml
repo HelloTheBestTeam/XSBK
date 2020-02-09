@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xsbk.user.mapper.UserMapper">
+	<select id="selectUserExtByAcount" parameterType="String"
+		resultType="com.xsbk.core.model.user.ext.UserExt">
+		select
+		a.id,a.account_no,a.password,a.nick_name,a.status,a.grade,a.create_time,a.update_time,a.email,a.phone_no,a.user_pic,c.id,c.name,c.permission_code,c.grade,c.pid,c.is_leaf
+		from tb_user a,tb_user_role b,tb_role_permission c where
+		a.account_no=#{account} and a.id=b.id and b.id=c.id
+	</select>
+
+	<insert id="insertUser" parameterType="com.xsbk.core.model.user.User">
+		insert into
+		tb_user(id,account_no,password,nick_name,status,grade,create_time,update_time,email,phone_no,user_pic)
+		values(#{id},#{accountNo},#{password},#{nickName},#{status},#{grade},#{createTime},#{updateTime},#{email},#{phoneNo},#{userPic})
+	</insert>
+
+	<select id="selectUserById" parameterType="String"
+		resultType="com.xsbk.core.model.user.User">
+		select
+		a.id,a.account_no,a.password,a.nick_name,a.status,a.grade,a.create_time,a.update_time,a.email,a.phone_no,a.user_pic
+		from tb_user a where a.id=#{id}
+	</select>
+
+	<update id="updateUser">
+		update tb_user set
+		id=#{id},account_no=#{accountNo},password=#{password},nick_name=#{nickName},status=#{status},grade=#{grade},create_time=#{createTime},update_time=#{updateTime},email=#{email},phone_no=#{phoneNo},user_pic=#{userPic}
+		where id=#{id}
+	</update>
+
+	<update id="deleteUserById">
+		update tb_user set status=#{status} where id=#{id}
+	</update>
+</mapper>

@@ -173,5 +173,6 @@
 		<module>XSBK-search</module>
 		<module>XSBK-auth</module>
 		<module>XSBK-core</module>
+		<module>XSBK-register</module>
 	</modules>
 </project>

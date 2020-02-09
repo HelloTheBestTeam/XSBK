@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xsbk.user.mapper.RoleMapper">
+	<insert id="insertRole" parameterType="com.xsbk.core.model.user.Role">
+		insert into
+		tb_role(id,name,role_code,create_time,update_time,status)
+		values(#{id},#{name},#{role_code},#{create_time},#{update_time},#{status})
+	</insert>
+
+	<delete id="deleteRoleById" parameterType="int">
+		delete from tb_role
+		where id=#{id}
+	</delete>
+
+	<update id="updateRole" parameterType="com.xsbk.core.model.user.Role">
+		update tb_role set
+		id=#{id},name=#{name},role_code=#{role_code},create_time=#{create_time},update_time=#{update_time},status=#{status}
+		where id=#{id}
+	</update>
+
+	<select id="selectRoleListByUid" parameterType="int"
+		resultType="com.xsbk.core.model.user.Role">
+		select id,name,role_code,create_time,update_time,status
+		from tb_role where id in (select role_id from tb_user_role where
+		user_id=#{uid})
+	</select>
+
+	<select id="selectRoleById" parameterType="int"
+		resultType="com.xsbk.core.model.user.Role">
+		select id,name,role_code,create_time,update_time,status
+		from tb_role where id=#{id}
+	</select>
+</mapper>

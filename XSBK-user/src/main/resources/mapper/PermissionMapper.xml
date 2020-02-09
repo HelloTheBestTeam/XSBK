@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xsbk.user.mapper.PermissionMapper">
+	<insert id="insertPermission" parameterType="com.xsbk.core.model.user.Permission">
+		insert into
+		tb_permission(id,name,permission_code,grade,pid,create_time,status,is_leaf)
+		values(#{id},#{name},#{permissionCode},#{grade},#{pid},#{createTime},#{status},#{isLeaf})
+	</insert>
+
+	<delete id="deletePermissionById" parameterType="int">
+		delete from
+		tb_permission where id=#{id}
+	</delete>
+
+	<update id="updatePermission" parameterType="com.xsbk.core.model.user.Permission">
+		update tb_permission
+		set
+		id=#{id},name=#{name},permission_code=#{permissionCode},grade=#{grade},pid=#{pid},create_time=#{createTime},status=#{status},is_leaf=#{isLeaf}
+		where id=#{id}
+	</update>
+
+	<select id="selectPermissionListByUid" parameterType="int"
+		resultType="com.xsbk.core.model.user.Permission">
+		select
+		id,name,permission_code,grade,pid,create_time,status,is_leaf from
+		tb_permission a where id in (select permission_id from
+		tb_role_permission where role_id in (select role_id from tb_user_role
+		where user_id=#{uid}))
+	</select>
+</mapper>
