@@ -174,5 +174,7 @@
 		<module>XSBK-auth</module>
 		<module>XSBK-core</module>
 		<module>XSBK-register</module>
+		<module>XSBK-im</module>
+		<module>XSBK-im-load_balance</module>
 	</modules>
 </project>
