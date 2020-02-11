@@ -18,7 +18,6 @@ import com.xsbk.core.response.Result;
 import com.xsbk.user.common.code.Code;
 import com.xsbk.user.common.msg.Msg;
 import com.xsbk.user.common.request.RegisteRequest;
-import com.xsbk.user.common.response.LoginResult;
 import com.xsbk.user.common.response.RegisterResult;
 import com.xsbk.user.service.UserDetailService;
 
@@ -44,17 +43,15 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@GetMapping("/getUserDetailByAccount")
-	public LoginResult getUserDetailByAccount(@RequestParam("account") String account) {
+	public UserExt getUserDetailByAccount(@RequestParam("account") String account) {
 		// 校验参数非空
-		LoginResult result = null;
 		if (StringUtils.isEmpty(account)) {
-			result = new LoginResult(Code.PARAMS_ERROR, Msg.PARAMS_ERROR, false, null);
+			throw new RuntimeException(Msg.PARAMS_ERROR);
 		}
 
 		// 查询
 		UserExt userExt = userDetailService.getUserExtByAccount(account);
-		result = new LoginResult(Code.SUCCESS, Msg.SUCCESS, true, userExt);
-		return result;
+		return userExt;
 	}
 
 	/**

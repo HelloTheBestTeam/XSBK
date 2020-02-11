@@ -176,5 +176,8 @@
 		<module>XSBK-register</module>
 		<module>XSBK-im</module>
 		<module>XSBK-im-load_balance</module>
+		<module>XSBK-comment</module>
+		<module>XSBK-article</module>
+		<module>XSBK-gateway</module>
 	</modules>
 </project>

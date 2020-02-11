@@ -21,4 +21,6 @@ public interface PermissionMapper {
 	
 	//public List<Permission> selectAllPermissionLeaf();
 	
+	public Permission selectPermissionByName(String name);
+	
 }

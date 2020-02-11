@@ -27,4 +27,11 @@
 		tb_role_permission where role_id in (select role_id from tb_user_role
 		where user_id=#{uid}))
 	</select>
+
+	<select id="selectPermissionByName" parameterType="String"
+		resultType="com.xsbk.core.model.user.Permission">
+		select
+		id,name,permission_code,grade,pid,create_time,status,is_leaf from
+		tb_permission where name=#{name}
+	</select>
 </mapper>
