@@ -1,0 +1,42 @@
+server:
+  port: 9002
+  
+spring:
+  application:
+    name: XSBK-auth
+  datasource:
+    druid:
+      url: jdbc:mysql://192.168.43.163:3306/xsbk_auth?characterEncoding=utf-8
+      username: root
+      password: 123456
+      driverClassName: com.mysql.jdbc.Driver
+      initialSize: 5  #初始建立连接数量
+      minIdle: 5  #最小连接数量
+      maxActive: 20 #最大连接数量
+      maxWait: 10000  #获取连接最大等待时间，毫秒
+      testOnBorrow: true #申请连接时检测连接是否有效
+      testOnReturn: false #归还连接时检测连接是否有效
+      timeBetweenEvictionRunsMillis: 60000 #配置间隔检测连接是否有效的时间（单位是毫秒）
+      minEvictableIdleTimeMillis: 300000  #连接在连接池的最小生存时间（毫秒） 
+ 
+eureka: 
+  client: #客户端注册进eureka服务列表内
+    service-url: 
+      defaultZone: http://localhost:9000/eureka/
+       #defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/      
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true     #访问路径可以显示IP地址    
+    
+alipay: 
+  authUrl: https://openauth.alipaydev.com/oauth2/publicAppAuthorize.htm
+  url: https://openapi.alipaydev.com/gateway.do
+  appid: 2016100100637111
+  pid: 2088102178059223
+  app_public_key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqbYwpv1eNk5W7yweuCrjT+dYYfOs4wpXbDvx2PhVA+k9A6yqrGVLHyDJP6Z7DUoG1mEjnYaHFfrENQ9eDCVOnd41e/17kzGwnmkGIC8m13uoDuTngC5HeuxlpgrwtpZGiGonYEFY9W8MPqVWV1gGsBEg8UVXKDihNuTCWXIWt8z8K6z1GK7SCH9LiQepUZiIZVPkw1it3+jcYYFLds/XDagSHF+WvtIxObpHCXrs67fRyQeFniFHI5qM/fpglF3mOv3FIws53ScspN09Np3h1xZ3YqSB0jG1rGT4rwHSpjxnTUDchiGs82c8pAulDaTZnyPtTNW9zjuEvAjD5SYe+QIDAQAB 
+  sign_type: RSA2
+  app_private_key: MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCptjCm/V42TlbvLB64KuNP51hh86zjCldsO/HY+FUD6T0DrKqsZUsfIMk/pnsNSgbWYSOdhocV+sQ1D14MJU6d3jV7/XuTMbCeaQYgLybXe6gO5OeALkd67GWmCvC2lkaIaidgQVj1bww+pVZXWAawESDxRVcoOKE25MJZcha3zPwrrPUYrtIIf0uJB6lRmIhlU+TDWK3f6NxhgUt2z9cNqBIcX5a+0jE5ukcJeuzrt9HJB4WeIUcjmoz9+mCUXeY6/cUjCzndJyyk3T02neHXFndipIHSMbWsZPivAdKmPGdNQNyGIazzZzykC6UNpNmfI+1M1b3OO4S8CMPlJh75AgMBAAECggEAFUvnjwz8ZZQvFJRUxoebPsupK6GIcHU7wzlCgBepk3QRVAS25itP4fgbSQF7L4+6i+xkq7/V88wkEwR6qMuFsgnQbF7CwxXZNAe53RANr7y0uim/YzZrgeFoYA2/Zyo0b6nihxGsOCBXSQU2cH97V1zO5XfuF/4DPQA340GN2EKMSBLQBDnBwFyT9UUCIhKFozflFxUyEDQn4ZBdLZPznjJEGBSjONB/VQxd1bOWaotI2UFDcOHdmK0gBih5wYbHWh23a2yo7qx1bGqrL8XZny0GCYp3n2vYVZGzUqAeCQv/QOnsTYn0qia6vIOxiGp3TIbhJ4ugiKhGZB22f8HsgQKBgQDnkpMkOGmWQVRJIXFb31iu6S4kasjw5CuDVq6v6+EiGIMQJL2NPvgkdvDPr1wK3E1XJRo5Pti84iNzNeaTMM/+cQb8AeRpIPKNmUjZ1xvKlRMwXwY1hCF95472+xz4YYncmNjCsPDvEdLCO73xPxSgK6ucG4h7OQaRMQd59HrdCwKBgQC7nR0M6+tlzDNXg7J2EPvfx+216yrYtNKDMuiPp0lQyCLxtR6ya1DUzmBJd3Yp1pW0RfpZwLyiVQ29ig3UDOBOXDv3qX3W22pImwQ2uKCtg4yUAhvFhbzNJCZqKNRlcDbEE79Y2nljmv/n4OGvcgy/NcSXd6CuhvyzaANy2/yOiwKBgB9RLEMGugjO9vYY5rq0/spQ0KOuKVSiltvhOiiibsTsqbTiMxxJ+sb7qt97aKgzWOZDJ0O8oxUQRBkNngwj2s0fPgGQw/IPuZ26sCZ9t81y0bCF+VH9d4YObcAq/6T7k+hYZ2AVC9BZCbao26wnisOKhF/NPWzkrmWuSsOMc503AoGAa86VceZjJuTXH9O6ieOqiGXfL6kJvurxCJkJT/rlwzit88yK7iWCljZc1/qAePwonCWV/VsmSfWr5p1c4tvfTMftYZwQhpUglsYU/sjK88nizu4DPVZjLlI2jMwXeI6pubRLQOiR1m2r3Xe419Mmhf2EkTEZsRA6R3FegfLtRo8CgYALxmD4VnEt801MI0+SoyDYvYzu5CU7W2AxpPMtPhFD6QvXjFeCwSeF88gbk1jumn0F86bUnRXAuk0Wilna/yBEw7vc5DL3alO5uyggHah1pNTIu4FsAD6NCEvYz2RGa8Z7+KF+JvUF4vqRDzzO0ZJns+pterImWEHk6ZaJBkFwtA==
+  alipay_public_key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqHpkJozekaXfdg49yjx2/w534FP979QcZI0wnEcN3Z48UCrHCMR9PzQvwICibfmTiOXYj5IjvrHFOFeUQZCmfQKBHH/IsINP1RduM3T/rssUdsnteBONfWF8u9V2TnY84U5jvxkwMj9nzFp8AqgHME4XRy89/4XBvVTw4vukRQRBU4Tg5nA36dJDdNtcgyHcOj5dZauEEdzefIRRxkCusPzReKgrGo7NJhxjp52j+lI0akxIIRlNOJP0mUrwWmPFp4wPUXm9ATxMudS8yghfcp7hV2maJ4r1Ojbp5vsZwGNT2/pr7eZu2o5xgwDKpUniIpqs1n3m9YXR1lySClRSzwIDAQAB
+  format: json
+  charset: utf-8
+  redirect_uri: http://xsbk.com/loginSuccess
