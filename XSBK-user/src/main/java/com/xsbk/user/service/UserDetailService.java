@@ -1,11 +1,18 @@
 package com.xsbk.user.service;
 
+import java.util.Date;
+
 import org.apache.commons.lang3.StringUtils;
+import org.apache.tomcat.jni.Lock;
+import org.redisson.RedissonMultiLock;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.xsbk.core.model.user.User;
+import com.xsbk.core.model.user.UserFensi;
 import com.xsbk.core.model.user.ext.UserExt;
 import com.xsbk.user.common.msg.Msg;
 import com.xsbk.user.common.request.RegisteRequest;
@@ -21,6 +28,8 @@ public class UserDetailService {
 
 	@Autowired
 	private UserMapper userMapper;
+	@Autowired
+	private RedissonClient redissonClient;
 	
 
 	public UserExt getUserExtByAccount(String account) {
@@ -87,5 +96,46 @@ public class UserDetailService {
 	
 	public User getUserByParam(String type, String data) {
 		return userMapper.selectUserByOneParam(type, data);
+	}
+	
+	public User getUserById(int id) {
+		return userMapper.selectUserById(id);
+	}
+	
+	public User getUserByAuthUid(String authUid) {
+		return userMapper.selectUserByAuthUid(authUid);
+	}
+	
+	@Transactional
+	public void addUserFensi(int userId, int fensiId) {
+		//生成用户粉丝表
+		UserFensi userFensi = new UserFensi();
+		userFensi.setAddTime(new Date());
+		userFensi.setFensiId(fensiId);
+		userFensi.setUserId(userId);
+		userMapper.insertUserFensi(userFensi);
+		
+		RLock lock1 = redissonClient.getLock(userId+"");
+		RLock lock2 = redissonClient.getLock(fensiId+"");
+		RedissonMultiLock mlock = new RedissonMultiLock(lock1, lock2);
+		mlock.lock();
+		//将关注数量加一
+		User user = userMapper.selectUserById(userId);
+		user.setNoticeNum(user.getNoticeNum() + 1);
+		userMapper.updateUser(user);
+		//将粉丝数量加一 
+		User u = userMapper.selectUserById(fensiId);
+		u.setFensiNum(u.getFensiNum() + 1);
+		userMapper.updateUser(u);
+		mlock.unlock();
+	}
+	
+	@Transactional
+	public void deleteUserFensi(int userId, int fensiId) {
+		userMapper.deleteUserFensiByFensiIdAndUid(fensiId, userId);
+	}
+	
+	public UserFensi getUserFensiByFensiIdAndUserId(int userId, int fensiId) {
+		return userMapper.selectUserFensiByFensiIdAndUserId(fensiId, userId);
 	}
 }

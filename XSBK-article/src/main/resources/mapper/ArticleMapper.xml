@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xsbk.article.mapper.ArticleMapper">
+	<insert id="insertArticle" parameterType="com.xsbk.core.model.article.Article">
+		insert into
+		tb_article(id,title,images_or_video,urls,send_time,smile_num,cry_num,forword_num,read_num,comment_num,content,user_id)
+		values(#{id},#{title},#{images_or_video},#{urls},#{send_time},#{smile_num},#{cry_num},#{forword_num},#{read_num},#{comment_num},#{content},#{user_id})
+	</insert>
+
+	<delete id="deleteArticleByArticleIdAndUserId">
+		delete from rb_article where id=#{articleId} and
+		user_id=#{userId}
+	</delete>
+
+	<select id="selectArticleById" parameterType="int"
+		resultType="com.xsbk.core.model.article.Article">
+		select id,title,images_or_video as
+		imagesOrVideo,urls,send_time as sendTime,smile_num as smileNum,cry_num
+		as cryNum,forword_num as forwordNum,read_num as readNum,comment_num as
+		commentNum,content,user_id as userId from tb_article where
+		id=#{articleId}
+	</select>
+</mapper>

@@ -36,3 +36,10 @@ eureka:
     
     
 validateType: account,nickName,phone    #注册账号是检验是否存在
+
+redis: 
+  mode: single  #集群  单机
+  clusterAddress: 
+  singleAddress: 192.168.43.163:6379
+  username: 
+  password: 

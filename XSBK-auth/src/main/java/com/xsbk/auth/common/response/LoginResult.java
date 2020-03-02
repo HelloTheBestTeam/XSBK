@@ -15,6 +15,8 @@ import lombok.ToString;
 @Data
 public class LoginResult extends Result{
 	
+	private String accessToken;
+	
 	public LoginResult(int code, String msg, boolean isSuccess) {
 		super(code, msg, isSuccess);
 	}

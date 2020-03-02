@@ -30,6 +30,13 @@ public class Config {
 	public AlipayProperties alipayProperties() {
 		return new AlipayProperties();
 	}
+	
+	@ConfigurationProperties(prefix = "encrypt.key-store")
+	@Bean
+	public AuthProperties authProperties() {
+		return new AuthProperties();
+	}
+	
 
 	// 初始化支付宝客户端
 	@Bean

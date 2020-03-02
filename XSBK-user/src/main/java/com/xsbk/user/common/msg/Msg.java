@@ -8,4 +8,5 @@ public class Msg {
 	public static final String NICK_NAME_EXISTS = "改昵称已经被使用";
 	public static final String EMAIL_EXISTS = "该邮箱已经被使用!";
 	public static final String PHONENO_EXISTS = "该手机号码已经被注册！";
+	public static final String IS_NOTICE = "已关注";
 }

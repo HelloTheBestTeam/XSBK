@@ -109,5 +109,17 @@ public class UserController extends BaseController {
 		
 		return new Result(Code.SUCCESS,Msg.SUCCESS,true);
 	}
-
+	
+	@GetMapping("/getUserById")
+	public User getUserById(@RequestParam("id")int id) {
+		return userDetailService.getUserById(id);
+	}
+	
+	@GetMapping("/getUserByAuthUid")
+	public User getUserByAuthUid(@RequestParam("authUid")String authUid) {
+		if(StringUtils.isEmpty(authUid)) {
+			return null;
+		}
+		return userDetailService.getUserByAuthUid(authUid);
+	}
 }

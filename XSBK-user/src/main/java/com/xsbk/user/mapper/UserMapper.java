@@ -3,6 +3,7 @@ package com.xsbk.user.mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.xsbk.core.model.user.User;
+import com.xsbk.core.model.user.UserFensi;
 import com.xsbk.core.model.user.ext.UserExt;
 
 public interface UserMapper {
@@ -19,4 +20,11 @@ public interface UserMapper {
 	
 	public User selectUserByOneParam(@Param("param")String param, @Param("data")String data);
 	
+	public User selectUserByAuthUid(String authUid);
+	
+	public void insertUserFensi(UserFensi userFensi);
+	
+	public void deleteUserFensiByFensiIdAndUid(@Param("fensiId")int fensiId, @Param("uid")int uid);
+	
+	public UserFensi selectUserFensiByFensiIdAndUserId(@Param("fensiId")int fensiId, @Param("userId")int userId);
 }

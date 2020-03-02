@@ -16,8 +16,10 @@ public class Article {
 	private int id;
 	//文章标题
 	private String title;
-	//文章图片
-	private String images;
+	//文章图片/视频 image video
+	private String imagesOrVideo;
+	//文章图片或者视频地址
+	private String urls;
 	//发送时间
 	private Date sendTime;
 	//笑脸数量/点赞数

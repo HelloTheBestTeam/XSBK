@@ -11,8 +11,8 @@
 
 	<insert id="insertUser" parameterType="com.xsbk.core.model.user.User">
 		insert into
-		tb_user(id,account_no,password,nick_name,status,grade,create_time,update_time,email,phone_no,user_pic)
-		values(#{id},#{accountNo},#{password},#{nickName},#{status},#{grade},#{createTime},#{updateTime},#{email},#{phoneNo},#{userPic})
+		tb_user(id,account_no,password,nick_name,status,grade,create_time,update_time,email,phone_no,user_pic,article_num,fensi_num,notice_num)
+		values(#{id},#{accountNo},#{password},#{nickName},#{status},#{grade},#{createTime},#{updateTime},#{email},#{phoneNo},#{userPic},#{articleNum},#{fensiNum},#{noticeNum})
 	</insert>
 
 	<select id="selectUserById" parameterType="String"
@@ -24,7 +24,7 @@
 
 	<update id="updateUser">
 		update tb_user set
-		id=#{id},account_no=#{accountNo},password=#{password},nick_name=#{nickName},status=#{status},grade=#{grade},create_time=#{createTime},update_time=#{updateTime},email=#{email},phone_no=#{phoneNo},user_pic=#{userPic}
+		id=#{id},account_no=#{accountNo},password=#{password},nick_name=#{nickName},status=#{status},grade=#{grade},create_time=#{createTime},update_time=#{updateTime},email=#{email},phone_no=#{phoneNo},user_pic=#{userPic},article_num=#{articleNum},fensi_num=#{fensiNum},notice_num=#{noticeNum}
 		where id=#{id}
 	</update>
 
@@ -37,5 +37,29 @@
 		select
 		id,account_no,password,nick_name,status,grade,create_time,update_time,email,phone_no,user_pic
 		from tb_user where ${param}=#{data}
+	</select>
+
+	<select id="selectUserByAuthUid" parameterType="String"
+		resultType="com.xsbk.core.model.user.User">
+		select
+		a.id,a.account_no,a.password,a.nick_name,a.status,a.grade,a.create_time,a.update_time,a.email,a.phone_no,a.user_pic,a.article_num,a.fensi_num,a.notice_num
+		from tb_user a,tb_auth_user b where a.id=b.user_id and
+		b.auth_uid=#{authUid}
+	</select>
+
+	<insert id="insertUserFensi" parameterType="com.xsbk.core.model.user.UserFensi">
+		insert into
+		tb_user_fensi(id,user_id,fensi_id,add_time)
+		values(#{id},#{userId},#{fensiId},#{addTime})
+	</insert>
+
+	<delete id="deleteUserFensiByFensiIdAndUid">
+		delete from tb_user_fensi where fensi_id=#{fensiId}
+		and userId=#{user_id}
+	</delete>
+
+	<select id="selectUserFensiByFensiIdAndUserId" resultType="com.xsbk.core.model.user.UserFensi">
+		select id,user_id,fensi_id,add_time from tb_user_fensi where
+		user_id=#{userId} and fensi_id=#{fensiId}
 	</select>
 </mapper>
