@@ -21,6 +21,8 @@ zuul:
       service-id: xsbk-auth
       strip-prefix: false
       sensitive-headers: 
+gateway:      
+  tokenExpire: 900
  
 eureka:
   client:
