@@ -28,15 +28,19 @@ public class AccessTokenService {
 	@Autowired
 	private Properties properties;
 	
-	public void dealAccessToken(HttpServletRequest request) {
+	public void dealAccessToken(RequestContext currentContext) {
+		HttpServletRequest request = currentContext.getRequest();
 		String requestURI = request.getRequestURI();
 		String accessToken = (String) request.getAttribute("accessToken");
-		if(accessToken != null) {
+		if(!StringUtils.isEmpty(accessToken)) {
 			refreshRedisAccessToken(accessToken);
 			String string = stringRedisTemplate.opsForValue().get(accessToken);
 			AuthToken authToken = JSON.parseObject(string, AuthToken.class);
 			String jwt = authToken.getJwt();
-			//TODO 将令牌放到请求头
+			
+			if(!StringUtils.isEmpty(jwt)) {
+				addAuthroizeToHeader(jwt,currentContext);
+			}
 		}
 	}
 	
@@ -45,5 +49,10 @@ public class AccessTokenService {
 		if(!StringUtils.isEmpty(string)) {
 			stringRedisTemplate.opsForValue().set(accessToken, string, properties.getTokenExpire(), TimeUnit.SECONDS);
 		}
+	}
+	
+	protected void addAuthroizeToHeader(String jwt, RequestContext currentContext) {
+		currentContext.setSendZuulResponse(true);
+		currentContext.addZuulRequestHeader("Authorization", jwt);
 	}
 }

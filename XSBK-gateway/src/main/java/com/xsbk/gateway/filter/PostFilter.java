@@ -1,49 +1,47 @@
 package com.xsbk.gateway.filter;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
-import com.xsbk.gateway.service.AccessTokenService;
+import com.xsbk.gateway.service.ResponseService;
 
 /**
- * 
+ * 后置过滤
  * @author chrilwe
  *
  */
 @Component
-public class PreFilter extends ZuulFilter {
+public class PostFilter extends ZuulFilter {
 	
 	@Autowired
-	private AccessTokenService accessTokenService;
+	private ResponseService responseService;
 
 	@Override
 	public Object run() throws ZuulException {
 		RequestContext currentContext = RequestContext.getCurrentContext();
-		accessTokenService.dealAccessToken(currentContext);
+		responseService.res(currentContext);
 		return null;
 	}
 
 	@Override
 	public boolean shouldFilter() {
-
+		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public int filterOrder() {
-		
-		return 10;
+		// TODO Auto-generated method stub
+		return 11;
 	}
 
 	@Override
 	public String filterType() {
-		
-		return "pre";
+		// TODO Auto-generated method stub
+		return "post";
 	}
 
 }
