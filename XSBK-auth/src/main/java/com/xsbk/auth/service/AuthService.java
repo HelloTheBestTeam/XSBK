@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -22,8 +23,10 @@ import org.springframework.web.client.RestTemplate;
 import com.alibaba.fastjson.JSON;
 import com.github.andrewoma.dexx.collection.Map;
 import com.xsbk.auth.client.UserClient;
+import com.xsbk.auth.common.util.ParseJwtToUser;
 import com.xsbk.auth.config.AuthProperties;
 import com.xsbk.core.model.auth.AuthToken;
+import com.xsbk.core.model.user.ext.UserExt;
 import com.xsbk.core.service.ServiceNameList;
 
 /**
@@ -122,5 +125,17 @@ public class AuthService {
 	protected void saveAuthToken(AuthToken authToken) {
 		stringRedisTemplate.opsForValue()
 				.set(authToken.getAccessToken(), JSON.toJSONString(authToken), authProperties.getExpire(), TimeUnit.SECONDS);
+	}
+	
+	public UserExt getUserExtByAccessToken(String accessToken) {
+		String string = stringRedisTemplate.opsForValue().get(accessToken);
+		if(StringUtils.isEmpty(string)) {
+			return null;
+		}
+		AuthToken authToken = JSON.parseObject(string, AuthToken.class);
+		String jwt = authToken.getJwt();
+		
+		// 将jwt令牌解析为authToken
+		return ParseJwtToUser.parse(jwt);
 	}
 }

@@ -26,6 +26,7 @@ import com.xsbk.auth.common.response.LoginResult;
 import com.xsbk.auth.config.AlipayProperties;
 import com.xsbk.auth.service.AuthService;
 import com.xsbk.core.model.auth.AuthToken;
+import com.xsbk.core.model.user.ext.UserExt;
 
 /**
  * 认证服务
@@ -96,4 +97,15 @@ public class AuthController {
 		return null;
 	}
 	
+	/**
+	 * 根据身份令牌获取用户信息
+	 * @return
+	 */
+	@GetMapping("/getUserByAccessToken")
+	public UserExt getUserDetailByAccessToken(@RequestParam("accessToken")String accessToken) {
+		if(StringUtils.isEmpty(accessToken)) {
+			return null;
+		}
+		return authService.getUserExtByAccessToken(accessToken);
+	}
 }
