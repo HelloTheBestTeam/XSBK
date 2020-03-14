@@ -20,4 +20,11 @@
 		commentNum,content,user_id as userId from tb_article where
 		id=#{articleId}
 	</select>
+	
+	<select id="selectArticleListOrderByDate" resultType="com.xsbk.core.model.article.Article">
+		select id,title,images_or_video as
+		imagesOrVideo,urls,send_time as sendTime,smile_num as smileNum,cry_num
+		as cryNum,forword_num as forwordNum,read_num as readNum,comment_num as
+		commentNum,content,user_id as userId from tb_article order by send_time desc limit #{start},#{size}
+	</select>
 </mapper>

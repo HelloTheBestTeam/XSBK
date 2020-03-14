@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xsbk.article.mapper.ArticleCategoryMapper">
+	<select id="allList" resultType="com.xsbk.core.model.article.ArticleCategory">
+		select * from
+		tb_article_category
+	</select>
+
+	<insert id="addArticleCategory" parameterType="com.xsbk.core.model.article.ArticleCategory">
+		insert into
+		tb_article_category(id,pid,name,grade,isLeaf)
+		values(#{id},#{pid},#{name},#{grade},#{isLeaf})
+	</insert>
+</mapper>

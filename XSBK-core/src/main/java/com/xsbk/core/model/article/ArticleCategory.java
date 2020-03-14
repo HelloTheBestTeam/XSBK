@@ -15,5 +15,5 @@ public class ArticleCategory {
 	private int pid;
 	private String name;
 	private int grade;
-	private String code;
+	private int isLeaf;//0不是，1是
 }
