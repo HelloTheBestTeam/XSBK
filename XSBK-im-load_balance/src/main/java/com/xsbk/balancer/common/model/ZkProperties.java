@@ -10,5 +10,5 @@ import lombok.Data;
 @Data
 public class ZkProperties {
 	private String serverAddress;
-	private long sessionTime;
+	private int sessionTime;
 }

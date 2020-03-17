@@ -1,0 +1,3 @@
+server:
+  port: 9006
+  serverAddressAndWeight: 127.0.0.1:10000_1     #服务器地址_权重值

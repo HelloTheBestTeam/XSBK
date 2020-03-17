@@ -6,11 +6,16 @@ import java.util.concurrent.ThreadPoolExecutor;
 import com.alibaba.fastjson.JSON;
 import com.xsbk.core.model.chat.ChatMessage;
 import com.xsbk.im.common.base.ChatType;
+import com.xsbk.im.common.model.ClientConectDetail;
 import com.xsbk.im.common.thread.CustomerExecutors;
+import com.xsbk.im.zk.ZookeeperClient;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.group.ChannelGroup;
+import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import io.netty.util.concurrent.GlobalEventExecutor;
 
 /**
  * 消息处理
@@ -19,10 +24,12 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
  */
 public class MessageHandler extends SimpleChannelInboundHandler<ChatMessage>{
 	
+	private static ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 	
 	//客户端连接到服务端成功回调(保存连接)
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
+		channelGroup.add(ctx.channel());
 		
 	}
 
