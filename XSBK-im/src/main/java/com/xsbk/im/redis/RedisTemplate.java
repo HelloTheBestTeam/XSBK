@@ -75,4 +75,8 @@ public class RedisTemplate {
 		
 		return jedis.hgetAll(key1);
 	}
+	
+	public void delete(String key) {
+		jedis.del(key);
+	}
 }

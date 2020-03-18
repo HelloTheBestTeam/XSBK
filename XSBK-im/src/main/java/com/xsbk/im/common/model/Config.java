@@ -25,4 +25,6 @@ public class Config {
 	private String redisPassword;
 	//令牌过期时间 秒
 	private int tokenExpire;
+	//获取用户信息url
+	private String userInfoUrl;
 }
