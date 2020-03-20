@@ -27,4 +27,10 @@ public class Config {
 	private int tokenExpire;
 	//获取用户信息url
 	private String userInfoUrl;
+	//rabbit的username
+	private String rabbit_username;
+	private String rabbit_password;
+	private String virtualHost;
+	private String rabbit_host;
+	private String rabbit_port;
 }

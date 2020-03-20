@@ -10,6 +10,7 @@ import com.alibaba.fastjson.JSON;
 import com.xsbk.im.common.channel.WsServerChannelInitializer;
 import com.xsbk.im.common.model.Config;
 import com.xsbk.im.common.model.ServerDetail;
+import com.xsbk.im.rabbit.RabbitService;
 import com.xsbk.im.redis.RedisTemplate;
 import com.xsbk.im.zk.ZookeeperClient;
 
@@ -37,6 +38,18 @@ public class ServerMain {
 		config = main.paraseConfigProperties();
 		//想注册中心注册服务器信息
 		main.registeServer();
+		//连接rabbit并监听消息
+		Thread thread = new Thread(new Runnable(){
+			@Override
+			public void run() {
+				RabbitService rabbitService = RabbitService.getInstance();
+				try {
+					rabbitService.receiveMessage();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		//启动服务器
 		main.startWsServer(config.getPort());
 	}
