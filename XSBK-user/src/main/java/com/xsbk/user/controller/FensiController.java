@@ -1,5 +1,9 @@
 package com.xsbk.user.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.xsbk.core.base.BaseController;
 import com.xsbk.core.model.user.UserFensi;
+import com.xsbk.core.model.user.ext.UserExt;
 import com.xsbk.core.response.Result;
+import com.xsbk.core.util.Oauth2Util;
 import com.xsbk.user.common.code.Code;
 import com.xsbk.user.common.msg.Msg;
 import com.xsbk.user.service.UserDetailService;
@@ -54,5 +60,34 @@ public class FensiController extends BaseController {
 		int userId = 0;
 		userDetailService.deleteUserFensi(userId, fensiId);
 		return new Result(Code.SUCCESS,Msg.SUCCESS,true);
+	}
+	
+	/**
+	 * 根据用户id和用户粉丝id查询
+	 * @return
+	 */
+	@GetMapping("/findFensiById")
+	public UserFensi findUserFensiById(
+			@RequestParam("fensiId")int fensiId) {
+		UserExt userExt = Oauth2Util.getUserExtInRequestHead(request);
+		int userId = userExt.getId();
+		UserFensi userFensi = userDetailService.getUserFensiByFensiIdAndUserId(userId, fensiId);
+		return userFensi;
+	}
+	
+	/**
+	 * 批量查询粉丝
+	 * @return
+	 */
+	@GetMapping("/findFensiBatchById")
+	public Map<Integer,UserFensi> findUserFensiById(
+			@RequestParam("fensiId")List<Integer> fensiIds) {
+		UserExt userExt = Oauth2Util.getUserExtInRequestHead(request);
+		Map<Integer,UserFensi> res = new HashMap<>();
+		for (Integer id : fensiIds) {
+			UserFensi userFensi = userDetailService.getUserFensiByFensiIdAndUserId(userExt.getId(), id);
+			res.put(id, userFensi);
+		}
+		return res;
 	}
 }

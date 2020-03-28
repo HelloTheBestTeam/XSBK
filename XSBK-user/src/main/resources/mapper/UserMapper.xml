@@ -11,8 +11,8 @@
 
 	<insert id="insertUser" parameterType="com.xsbk.core.model.user.User">
 		insert into
-		tb_user(id,account_no,password,nick_name,status,grade,create_time,update_time,email,phone_no,user_pic,article_num,fensi_num,notice_num)
-		values(#{id},#{accountNo},#{password},#{nickName},#{status},#{grade},#{createTime},#{updateTime},#{email},#{phoneNo},#{userPic},#{articleNum},#{fensiNum},#{noticeNum})
+		tb_user(id,account_no,password,nick_name,status,grade,create_time,update_time,email,phone_no,max_friends,user_pic,article_num,fensi_num,notice_num)
+		values(#{id},#{accountNo},#{password},#{nickName},#{status},#{grade},#{createTime},#{updateTime},#{email},#{phoneNo},#{maxFriends},#{userPic},#{articleNum},#{fensiNum},#{noticeNum})
 	</insert>
 
 	<select id="selectUserById" parameterType="String"

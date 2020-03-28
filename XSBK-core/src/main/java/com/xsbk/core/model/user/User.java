@@ -24,7 +24,7 @@ public class User {
 	private Date updateTime;
 	private String email;//用户邮箱
 	private String phoneNo;//手机号
-	private int maxFrends;//最大好友数量
+	private int maxFriends;//最大好友数量
 	private String userPic;
 	private int articleNum;//发布文章数量
 	private int fensiNum;//粉丝数量

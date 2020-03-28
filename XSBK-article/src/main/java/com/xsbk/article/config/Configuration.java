@@ -10,6 +10,7 @@ import org.csource.fastdfs.TrackerServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 
 import com.xsbk.article.common.model.FdfsProperties;
 
@@ -30,6 +31,11 @@ public class Configuration {
 		StorageClient1 client = new StorageClient1(trackerServer, storageServer);
 		return client;
 	}*/
+	
+	@Bean
+	public RestTemplate restTemplate(){
+		return new RestTemplate();
+	}
 	
 	@Bean
 	@ConfigurationProperties(prefix="fdfs")

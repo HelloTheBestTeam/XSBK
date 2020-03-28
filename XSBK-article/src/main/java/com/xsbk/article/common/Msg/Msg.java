@@ -7,4 +7,5 @@ package com.xsbk.article.common.Msg;
 public class Msg {
 	public static final String SUCCESS = "请求成功";
 	public static final String FAIL = "请求失败";
+	public static final String UNAUTHROIZE = "未认证";
 }

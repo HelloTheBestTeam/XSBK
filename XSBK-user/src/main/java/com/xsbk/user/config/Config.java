@@ -30,12 +30,12 @@ public class Config {
 	}
 	
 	
-	@Bean
+	/*@Bean
 	public RedissonClient redissionClient() {
 		org.redisson.config.Config config = config();
 		RedissonClient redissonClient = Redisson.create(config);
 		return redissonClient;
-	}
+	}*/
 	
 	
 	/**

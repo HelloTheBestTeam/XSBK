@@ -18,4 +18,5 @@ public class FileBaseDetail {
 	private String extName;
 	private long size;
 	private Date createTime;
+	private int ownerId;
 }

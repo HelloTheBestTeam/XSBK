@@ -1,5 +1,8 @@
 package com.xsbk.user.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -67,7 +70,12 @@ public class UserController extends BaseController {
 			result = new RegisterResult(Code.PARAMS_ERROR, Msg.PARAMS_ERROR, false);
 		}
 
-		userDetailService.registeUser(registeRequest);
+		try {
+			userDetailService.registeUser(registeRequest);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new RegisterResult(Code.FAIL,e.getMessage(),false);
+		}
 		result = new RegisterResult(Code.SUCCESS, Msg.SUCCESS, true);
 		return result;
 	}
@@ -115,11 +123,23 @@ public class UserController extends BaseController {
 		return userDetailService.getUserById(id);
 	}
 	
+	//根据第三方登录id查询
 	@GetMapping("/getUserByAuthUid")
 	public User getUserByAuthUid(@RequestParam("authUid")String authUid) {
 		if(StringUtils.isEmpty(authUid)) {
 			return null;
 		}
 		return userDetailService.getUserByAuthUid(authUid);
+	}
+	
+	//根据用户id批量查询
+	@GetMapping("/getUserBatchByIds")
+	public List<User> selectUserBatchByIds(List<Integer> ids) {
+		List<User> res = new ArrayList<User>();
+		for (Integer id : ids) {
+			User user = userDetailService.getUserById(id);
+			res.add(user);
+		}
+		return res;
 	}
 }

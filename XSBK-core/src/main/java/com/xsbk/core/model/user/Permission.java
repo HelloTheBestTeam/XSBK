@@ -21,4 +21,5 @@ public class Permission {
 	private Date createTime;
 	private String status;
 	private int isLeaf;//是否为叶子节点
+	private String url;//访问地址
 }

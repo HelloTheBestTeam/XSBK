@@ -28,8 +28,8 @@ public class UserDetailService {
 
 	@Autowired
 	private UserMapper userMapper;
-	@Autowired
-	private RedissonClient redissonClient;
+	//@Autowired
+	//private RedissonClient redissonClient;
 	
 
 	public UserExt getUserExtByAccount(String account) {
@@ -51,20 +51,44 @@ public class UserDetailService {
 			
 			//为用户赋予普通角色的权限
 			
+			//插入数据
+			User user = new User();
+			user.setAccountNo(request.getAccount());
+			user.setCreateTime(new Date());
+			user.setPhoneNo(request.getPhoneNo());
+			user.setPassword(request.getPassword1());
+			user.setNickName(nickName);
+			user.setStatus("正常");
+			userMapper.insertUser(user);
 		}
 	}
 
 	private boolean validateRegisteParams(RegisteRequest request) {
+		//校验code
+		
 		// 账号密码 手机号不能为空
 		String account = request.getAccount();
-		String password = request.getPassword();
+		String password1 = request.getPassword1();
+		String password2 = request.getPassword2();
 		String phoneNo = request.getPhoneNo();
-		if (StringUtils.isAnyEmpty(account, password, phoneNo)) {
+		if (StringUtils.isAnyEmpty(account, password1, password2, phoneNo)) {
 			throw new RuntimeException(Msg.PARAMS_NULL_ERROR);
+		}
+		
+		//校验密码是否一致
+		if(!password1.equals(password2)) {
+			throw new RuntimeException(Msg.PASSWORD_DIFF);
 		}
 
 		// 校验账号密码和手机号是否符合规定
-		
+		char[] ac = account.toCharArray();
+		char[] pd = password1.toCharArray();
+		if(ac.length != 11) {
+			throw new RuntimeException(Msg.ACCOUNT_TYPE_ERR);
+		}
+		if(pd.length < 6 || pd.length > 11) {
+			throw new RuntimeException(Msg.PASSWORD_TYPE_ERR);
+		}
 		
 		//校验账号 手机号 邮箱 和 昵称是否存在
 		User u1 = this.getUserByParam("account_no", account);
@@ -115,10 +139,6 @@ public class UserDetailService {
 		userFensi.setUserId(userId);
 		userMapper.insertUserFensi(userFensi);
 		
-		RLock lock1 = redissonClient.getLock(userId+"");
-		RLock lock2 = redissonClient.getLock(fensiId+"");
-		RedissonMultiLock mlock = new RedissonMultiLock(lock1, lock2);
-		mlock.lock();
 		//将关注数量加一
 		User user = userMapper.selectUserById(userId);
 		user.setNoticeNum(user.getNoticeNum() + 1);
@@ -127,7 +147,6 @@ public class UserDetailService {
 		User u = userMapper.selectUserById(fensiId);
 		u.setFensiNum(u.getFensiNum() + 1);
 		userMapper.updateUser(u);
-		mlock.unlock();
 	}
 	
 	@Transactional

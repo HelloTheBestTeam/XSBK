@@ -3,13 +3,12 @@
 <mapper namespace="com.xsbk.article.mapper.ArticleMapper">
 	<insert id="insertArticle" parameterType="com.xsbk.core.model.article.Article">
 		insert into
-		tb_article(id,title,images_or_video,urls,send_time,smile_num,cry_num,forword_num,read_num,comment_num,content,user_id)
-		values(#{id},#{title},#{images_or_video},#{urls},#{send_time},#{smile_num},#{cry_num},#{forword_num},#{read_num},#{comment_num},#{content},#{user_id})
+		tb_article(id,title,images_or_video,urls,send_time,smile_num,cry_num,forword_num,read_num,comment_num,content,user_id,status)
+		values(#{id},#{title},#{images_or_video},#{urls},#{send_time},#{smile_num},#{cry_num},#{forword_num},#{read_num},#{comment_num},#{content},#{user_id},#{status})
 	</insert>
 
 	<delete id="deleteArticleByArticleIdAndUserId">
-		delete from rb_article where id=#{articleId} and
-		user_id=#{userId}
+		update tb_article set status=#{status} where id=#{id} and user_id=#{userId}
 	</delete>
 
 	<select id="selectArticleById" parameterType="int"
@@ -17,7 +16,7 @@
 		select id,title,images_or_video as
 		imagesOrVideo,urls,send_time as sendTime,smile_num as smileNum,cry_num
 		as cryNum,forword_num as forwordNum,read_num as readNum,comment_num as
-		commentNum,content,user_id as userId from tb_article where
+		commentNum,content,user_id as userId,status from tb_article where
 		id=#{articleId}
 	</select>
 	
@@ -25,6 +24,24 @@
 		select id,title,images_or_video as
 		imagesOrVideo,urls,send_time as sendTime,smile_num as smileNum,cry_num
 		as cryNum,forword_num as forwordNum,read_num as readNum,comment_num as
-		commentNum,content,user_id as userId from tb_article order by send_time desc limit #{start},#{size}
+		commentNum,content,user_id as userId,status from tb_article order by send_time desc limit #{start},#{size}
 	</select>
+	
+	<select id="selectTheLastArticleListDescByLimit" resultType="com.xsbk.core.model.article.Article">
+		select id,title,images_or_video as
+		imagesOrVideo,urls,send_time as sendTime,smile_num as smileNum,cry_num
+		as cryNum,forword_num as forwordNum,read_num as readNum,comment_num as
+		commentNum,content,user_id as userId,status from tb_article where status=#{status} order by id desc limit #{size}
+	</select>
+	
+	<select id="selectArticleListDescSmallerThanIndex" resultType="com.xsbk.core.model.article.Article">
+		select id,title,images_or_video as
+		imagesOrVideo,urls,send_time as sendTime,smile_num as smileNum,cry_num
+		as cryNum,forword_num as forwordNum,read_num as readNum,comment_num as
+		commentNum,content,user_id as userId,status from tb_article where status=#{status} and id<#{index} limit #{size}
+	</select>
+	
+	<insert id="insertArticleCat" parameterType="com.xsbk.core.model.article.ArticleCat">
+		insert into tb_article_cat(id,article_id,cat_id) values(#{id},#{articleId},#{catId})
+	</insert>
 </mapper>

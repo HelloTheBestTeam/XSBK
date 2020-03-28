@@ -35,4 +35,6 @@ public class Article {
 	//文章内容
 	private String content;
 	private int userId;
+	//状态 0删除  1正常
+	private int status;
 }

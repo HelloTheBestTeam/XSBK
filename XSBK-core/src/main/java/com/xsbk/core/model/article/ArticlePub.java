@@ -14,4 +14,5 @@ public class ArticlePub extends Article {
 	private String account;
 	private String userPic;
 	private String nickName;
+	private boolean ganzhu;
 }

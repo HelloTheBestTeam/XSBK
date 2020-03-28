@@ -9,4 +9,7 @@ public class Msg {
 	public static final String EMAIL_EXISTS = "该邮箱已经被使用!";
 	public static final String PHONENO_EXISTS = "该手机号码已经被注册！";
 	public static final String IS_NOTICE = "已关注";
+	public static final String PASSWORD_DIFF = "两次输入的密码不一致";
+	public static final String ACCOUNT_TYPE_ERR = "错误的账号格式";
+	public static final String PASSWORD_TYPE_ERR = "错误的密码格式";
 }
